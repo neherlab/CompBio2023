@@ -1,0 +1,19 @@
+name: viral_assembly
+channels:
+- conda-forge
+- bioconda
+- defaults
+dependencies:
+- bwa
+- trim-galore
+- samtools
+- python==3.8*
+- pip
+- pip:
+  - numpy
+  - snakemake
+  - pysam
+  - matplotlib
+  - seaborn
+  - pandas
+  - biopython
