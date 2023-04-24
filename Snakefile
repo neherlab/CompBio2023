@@ -8,7 +8,7 @@ rule all:
         expand("results/{sample}/consensus.fasta", sample=all_dataset)
 
 
-rule:
+rule fetch_primers:
     params:
         primerfile = "https://raw.githubusercontent.com/artic-network/artic-ncov2019/master/primer_schemes/nCoV-2019/V3/nCoV-2019.tsv"
     output:
@@ -47,8 +47,7 @@ rule trim_single_read:
         r1 = "results/{sample}/{sample}_trimmed.fq.gz"
     params:
         outdir = "results/{sample}",
-        min_length = 30,
-        min_length_single = 30,
+        min_length = 30
     shell:
         """
         trim_galore --length {params.min_length} --output {params.outdir} {input.r1}
@@ -73,8 +72,10 @@ rule pileup:
         insertions_file = "results/{sample}/insertions.json",
     shell:
         """
-        python3 scripts/create_allele_counts.py --bam_file {input.reads} --primers {input.primers}\
-                  --counts-file {output.counts_file} --insertions-file {output.insertions_file}
+        python3 scripts/create_allele_counts.py --bam_file {input.reads}
+                            --primers {input.primers}\
+                            --counts-file {output.counts_file} \
+                            --insertions-file {output.insertions_file}
         """
 
 
@@ -88,7 +89,8 @@ rule consensus_sequence:
         "results/{sample}/consensus.fasta"
     shell:
         """
-        python3 scripts/consensus_sequence.py --counts {input.counts} --min-coverage {params.min_coverage}\
-                  --seq-name {params.seq_name} --output {output}
+        python3 scripts/consensus_sequence.py --counts {input.counts} \
+                                    --min-coverage {params.min_coverage}\
+                                    --seq-name {params.seq_name} --output {output}
         """
 

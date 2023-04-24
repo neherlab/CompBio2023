@@ -13,7 +13,5 @@ dependencies:
   - numpy
   - snakemake
   - pysam
-  - matplotlib
-  - seaborn
   - pandas
   - biopython
