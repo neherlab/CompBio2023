@@ -10,6 +10,8 @@ git clone https://github.com/neherlab/CompBio2023.git
 cd CompBio2023
 
 conda env create -f conda.yml
+
+conda activate viral_assembly
 ```
 
 
